@@ -3,6 +3,7 @@
         <div class="col p-4 d-flex flex-column position-static">
             <strong class="d-inline-block mb-2 text-primary-emphasis">World</strong>
             <h3 class="mb-0">{{ $post->title }}</h3>
+            <p class="card-text mb-auto">{{ $post->user->name }}</p>
             <div class="mb-1 text-body-secondary">Nov 12</div>
             <p class="card-text mb-auto">{{ $post->body }}</p>
             <a href="/posts/{{ $post->id }}" class="icon-link gap-1 icon-link-hover stretched-link">
