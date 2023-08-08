@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CreatePost;
 use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -12,8 +15,9 @@ class PostsController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $posts = Post::where('isPublished', true)->get();
+    {   
+        $posts = Post::paginate(3);
+        //$posts = Post::where('isPublished', true)->get();
         return view('pages.posts', compact('posts'));
     }
 
@@ -33,11 +37,15 @@ class PostsController extends Controller
 
         $user = Auth::user();
 
-        Post::create([
+        $post = Post::create([
             'title' => $request->title,
             'body' => $request->body,
             'user_id' => $user->id
         ]);
+
+
+        $mailData = $post->only('title', 'body');
+        Mail::to($user->email)->send(new CreatePost($mailData));
         return redirect('createpost')->with('status', 'Post successfully created.');
     }
 
@@ -47,7 +55,9 @@ class PostsController extends Controller
     public function show(string $id)
     {
         $post = Post::findOrFail($id);
+        $post->comments = Comment::where('post_id',$id)->paginate(2);        
         return view('pages.post', compact('post'));
+        
     }
 
     /**

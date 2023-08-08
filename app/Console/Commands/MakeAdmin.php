@@ -29,7 +29,7 @@ class MakeAdmin extends Command
         $user_email = $this->argument('UserEmail');
       User::where('email', $user_email)
       ->update([
-          'role' => 'admin'
+          'isAdmin' => true
       ]);
       echo "Finished"; 
     }

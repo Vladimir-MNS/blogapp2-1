@@ -1,7 +1,12 @@
-
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">@if(auth()->user()) {{ auth()->user()->name }} @else Blog @endif</a>
+        <a class="navbar-brand" href="/">
+            @if (auth()->user())
+                {{ auth()->user()->name }}
+            @else
+                Blog
+            @endif
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,10 +27,10 @@
                         <a class="nav-link active" aria-current="page" href="/login">Login</a>
                     </li>
                 @else
-                    @if(auth()->user()->role == "admin")
-                    <li class="nav-item">
-                        <a class="nav-link" href="/createpost">Create Posts</a>
-                    </li>
+                    @if (auth()->user()->isAdmin)
+                        <li class="nav-item">
+                            <a class="nav-link" href="/createpost">Create Posts</a>
+                        </li>
                     @endif
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
