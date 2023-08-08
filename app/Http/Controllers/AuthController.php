@@ -29,13 +29,15 @@ class AuthController extends Controller
             'password' => 'required|string|min:5|max:255|confirmed'
         ]);
 
-        User::create([
+        $newUser = User::create([
                 'name' => $reguest->name,
                 'email' => $reguest->email,
                 'password' => Hash::make($reguest->password)
             ]);
 
-        return redirect('/login')->with('status', 'Account created. Please login');
+        Auth::login($newUser);
+
+        return redirect('/')->with('status', 'Sucessfully logged in');
     }
 
     public function login(Request $reguest) {
